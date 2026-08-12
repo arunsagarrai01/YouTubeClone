@@ -57,20 +57,40 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
 
-body: SafeArea(child: Column(
-  spacing: 20,
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    Container(height: 100, width: 100, color: Colors.red),
-    Container(height: 100, width: 100, color: Colors.black),
-    Container(height: 100, width: 100, color: Colors.blue),
-    Container(height: 100, width: 100, color: Colors.pink),
-    Container(height: 100, width: 100, color: Colors.orange),
-    Container(height: 100, width: 100, color: Colors.yellow),
+body: Container(
+  color: Colors.grey,
 
-  ],
-)
+  child: SafeArea(child: Row(
+    spacing: 30,
+    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: .min,
+    crossAxisAlignment: .center,
+    children: [
 
+      Container(height: 100, width: 100, color: Colors.yellow),
+      Container(height: 100, width: 100, color: Colors.red),
+      Container(height: 100, width: 100, color: Colors.orange),
+
+    ],
+  )
+  /*Column(
+    spacing: 20,
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    verticalDirection: VerticalDirection.up,
+    children: [
+      Container(height: 100, width: 100, color: Colors.red),
+      Container(height: 100, width: 100, color: Colors.black),
+      Container(height: 100, width: 100, color: Colors.blue),
+      Container(height: 100, width: 100, color: Colors.pink),
+      Container(height: 100, width: 100, color: Colors.orange),
+      Container(height: 100, width: 100, color: Colors.yellow),
+
+    ],
+  )*/
+
+  ),
 )
 
 
