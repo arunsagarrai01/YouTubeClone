@@ -1,4 +1,3 @@
-/*
 
 //main code
 
@@ -58,6 +57,24 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
 
+body: SafeArea(child: Column(
+  spacing: 20,
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    Container(height: 100, width: 100, color: Colors.red),
+    Container(height: 100, width: 100, color: Colors.black),
+    Container(height: 100, width: 100, color: Colors.blue),
+    Container(height: 100, width: 100, color: Colors.pink),
+    Container(height: 100, width: 100, color: Colors.orange),
+    Container(height: 100, width: 100, color: Colors.yellow),
+
+  ],
+)
+
+)
+
+
+/*
       body: SafeArea(
         child: Container(
           height: 250,
@@ -102,18 +119,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-      ),
-
+      ),*/
+/*
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ),
+      ),*/
     );
   }
 }
 
-*/
 
 
 
@@ -275,6 +291,9 @@ class _TodoPageState extends State<TodoPage> {
   }
 }*/
 
+
+
+/*
 
 import 'package:flutter/material.dart';
 
@@ -591,4 +610,8 @@ class VideoCard extends StatelessWidget {
       ),
     );
   }
-}
+}*/
+
+
+
+
