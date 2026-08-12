@@ -1,6 +1,3 @@
-
-//main code
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,49 +11,260 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'My UI',
+
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+
+      home: const MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+
+      body: SafeArea(
+        child: Center(
+          child: Container(
+            width: 350,
+            height: 750,
+
+            padding: const EdgeInsets.all(35),
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+
+              border: Border.all(
+                color: Colors.black,
+                width: 2,
+              ),
+
+              borderRadius: BorderRadius.circular(35),
+            ),
+
+            child: Column(
+              children: [
+
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+
+                  children: [
+
+                    topButton(
+                      "1",
+                      const Color(0xFFFFCACA),
+                      Colors.red,
+                    ),
+
+                    topButton(
+                      "2",
+                      const Color(0xFFB7D8FF),
+                      Colors.blue,
+                    ),
+
+                    topButton(
+                      "3",
+                      const Color(0xFFFFF0B0),
+                      Colors.black,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 60),
+
+                textBox("Hi My name"),
+
+                const SizedBox(height: 40),
+
+                textBox("is"),
+
+                const SizedBox(height: 40),
+
+                textBox("Arun Sagar Rai"),
+
+                const Spacer(),
+
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+
+                  children: [
+
+                    bottomButton(
+                      context,
+                      "Log In",
+                      const Color(0xFFB7D8FF),
+                      Colors.blue,
+                          () {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "Button 1 clicked!",
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    bottomButton(
+                      context,
+                      "Sign Up",
+                      const Color(0xFFC8F5C0),
+                      Colors.orange,
+                          () {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "Button 2 clicked!",
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-      home: const MyHomePage(
-        title: 'This is my gallery.',
+    );
+  }
+
+  Widget topButton(
+      String text,
+      Color backgroundColor,
+      Color borderColor,
+      ) {
+    return SizedBox(
+      width: 75,
+      height: 80,
+
+      child: ElevatedButton(
+        onPressed: () {
+          print("Top button $text clicked");
+        },
+
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+
+          backgroundColor: backgroundColor,
+
+          side: BorderSide(
+            color: borderColor,
+            width: 3,
+          ),
+
+          elevation: 0,
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+
+        child: Text(
+          text,
+
+          style: const TextStyle(
+            fontSize: 25,
+            color: Colors.orange,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget textBox(String text) {
+    return Container(
+      width: double.infinity,
+      height: 105,
+
+      alignment: Alignment.center,
+
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFEFA8),
+
+        border: Border.all(
+          color: Colors.blue,
+          width: 3,
+        ),
+
+        borderRadius: BorderRadius.circular(25),
+      ),
+
+      child: Text(
+        text,
+
+        style: const TextStyle(
+          fontSize: 24,
+          color: Colors.blue,
+        ),
+      ),
+    );
+  }
+
+  Widget bottomButton(
+      BuildContext context,
+      String text,
+      Color backgroundColor,
+      Color borderColor,
+      VoidCallback onPressed,
+      ) {
+    return SizedBox(
+      width: 120,
+      height: 65,
+
+      child: ElevatedButton(
+        onPressed: onPressed,
+
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.zero,
+
+          backgroundColor: backgroundColor,
+
+          foregroundColor: borderColor,
+
+          elevation: 0,
+
+          side: BorderSide(
+            color: borderColor,
+            width: 3,
+          ),
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+
+        child: Text(
+          text,
+
+          style: TextStyle(
+            fontSize: 20,
+            color: borderColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({
-    super.key,
-    required this.title,
-  });
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor:
-        Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-
+//row
+    /*
 body: Container(
   color: Colors.grey,
 
@@ -73,6 +281,9 @@ body: Container(
 
     ],
   )
+      */
+
+      //column
   /*Column(
     spacing: 20,
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,8 +301,7 @@ body: Container(
     ],
   )*/
 
-  ),
-)
+
 
 
 /*
@@ -146,9 +356,7 @@ body: Container(
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),*/
-    );
-  }
-}
+
 
 
 
