@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -260,7 +260,7 @@ class MyHomePage extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 
 //row
@@ -840,6 +840,512 @@ class VideoCard extends StatelessWidget {
   }
 }*/
 
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const YouTubeClone());
+}
+
+class YouTubeClone extends StatelessWidget {
+  const YouTubeClone({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'YouTube Clone',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+        useMaterial3: true,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+
+  final List<String> categories = [
+    'All',
+    'Music',
+    'Gaming',
+    'Flutter',
+    'Coding',
+    'Live',
+    'News',
+  ];
+
+  final List<Map<String, String>> videos = [
+    {
+      'title': 'Learn Flutter From Scratch',
+      'channel': 'Flutter Academy',
+      'views': '1.2M views',
+      'time': '2 days ago',
+      'image':
+      'https://images.unsplash.com/photo-1555066931-4365d14bab8c',
+    },
+    {
+      'title': 'Build a YouTube Clone With Flutter',
+      'channel': 'Code With Me',
+      'views': '850K views',
+      'time': '1 week ago',
+      'image':
+      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
+    },
+    {
+      'title': 'Dart Programming Full Course',
+      'channel': 'Programming World',
+      'views': '2.4M views',
+      'time': '3 weeks ago',
+      'image':
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
+    },
+    {
+      'title': 'Top 10 Flutter Projects',
+      'channel': 'Developer Hub',
+      'views': '540K views',
+      'time': '5 days ago',
+      'image':
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085',
+    },
+    {
+      'title': 'How To Become A Flutter Developer',
+      'channel': 'Tech Career',
+      'views': '720K views',
+      'time': '1 month ago',
+      'image':
+      'https://images.unsplash.com/photo-1515879218367-8466d910aaa4',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        titleSpacing: 16,
+        title: Row(
+          children: [
+            const Icon(
+              Icons.play_circle_fill,
+              color: Colors.red,
+              size: 32,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'YouTube',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.cast, color: Colors.black),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.notifications_none,
+              color: Colors.black,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search, color: Colors.black),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: CircleAvatar(
+              radius: 16,
+              child: Text('A'),
+            ),
+          ),
+        ],
+      ),
+
+      body: IndexedStack(
+        index: selectedIndex,
+        children: [
+          homeScreen(),
+          const Center(
+            child: Text(
+              'Shorts',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+          const Center(
+            child: Text(
+              'Subscriptions',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+          const Center(
+            child: Text(
+              'You',
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+        ],
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_library_outlined),
+            activeIcon: Icon(Icons.video_library),
+            label: 'Shorts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.subscriptions_outlined),
+            activeIcon: Icon(Icons.subscriptions),
+            label: 'Subscriptions',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'You',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget homeScreen() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.only(right: 8, top: 8),
+                child: Chip(
+                  label: Text(categories[index]),
+                  backgroundColor:
+                  index == 0 ? Colors.black : Colors.grey.shade200,
+                  labelStyle: TextStyle(
+                    color: index == 0 ? Colors.white : Colors.black,
+                  ),
+                  side: BorderSide.none,
+                ),
+              );
+            },
+          ),
+        ),
+
+        Expanded(
+          child: ListView.builder(
+            itemCount: videos.length,
+            itemBuilder: (context, index) {
+              final video = videos[index];
+
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VideoPage(
+                        title: video['title']!,
+                        channel: video['channel']!,
+                        image: video['image']!,
+                      ),
+                    ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.network(
+                      video['image']!,
+                      width: double.infinity,
+                      height: 210,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          height: 210,
+                          color: Colors.grey.shade300,
+                          child: const Center(
+                            child: Icon(
+                              Icons.image,
+                              size: 50,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CircleAvatar(
+                            radius: 20,
+                            child: Icon(Icons.person),
+                          ),
+
+                          const SizedBox(width: 12),
+
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  video['title']!,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+
+                                const SizedBox(height: 5),
+
+                                Text(
+                                  video['channel']!,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade700,
+                                  ),
+                                ),
+
+                                Text(
+                                  '${video['views']} • ${video['time']}',
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const Icon(Icons.more_vert),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class VideoPage extends StatefulWidget {
+  final String title;
+  final String channel;
+  final String image;
+
+  const VideoPage({
+    super.key,
+    required this.title,
+    required this.channel,
+    required this.image,
+  });
+
+  @override
+  State<VideoPage> createState() => _VideoPageState();
+}
+
+class _VideoPageState extends State<VideoPage> {
+  bool liked = false;
+  bool subscribed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Video'),
+      ),
+
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              widget.image,
+              width: double.infinity,
+              height: 230,
+              fit: BoxFit.cover,
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  const Text(
+                    '1.2M views • 2 days ago',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                liked = !liked;
+                              });
+                            },
+                            icon: Icon(
+                              liked
+                                  ? Icons.thumb_up
+                                  : Icons.thumb_up_outlined,
+                            ),
+                          ),
+                          const Text('Like'),
+                        ],
+                      ),
+
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.comment_outlined),
+                          ),
+                          const Text('Comment'),
+                        ],
+                      ),
+
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.share_outlined),
+                          ),
+                          const Text('Share'),
+                        ],
+                      ),
+
+                      Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.download_outlined),
+                          ),
+                          const Text('Download'),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  const Divider(height: 30),
+
+                  Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 25,
+                        child: Icon(Icons.person),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: Text(
+                          widget.channel,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            subscribed = !subscribed;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                          subscribed ? Colors.grey : Colors.black,
+                          foregroundColor: Colors.white,
+                        ),
+                        child: Text(
+                          subscribed ? 'Subscribed' : 'Subscribe',
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 25),
+
+                  const Text(
+                    'Description',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 8),
+
+                  const Text(
+                    'This is a YouTube clone created using Flutter. '
+                        'You can later connect this application to Firebase '
+                        'or your own backend to add real users, videos, '
+                        'comments, likes and subscriptions.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 
 
