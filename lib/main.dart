@@ -1352,6 +1352,7 @@ class _VideoPageState extends State<VideoPage> {
 
 
 
+/*
 import 'package:flutter/material.dart';
 
 void main() {
@@ -1947,6 +1948,514 @@ class _VideoPageState extends State<VideoPage> {
     );
   }
 }
+*/
 
 
+
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+
+void main() {
+  runApp(const YouTubeClone());
+}
+
+class YouTubeClone extends StatelessWidget {
+  const YouTubeClone({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'YouTube Clone',
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      home: const HomePage(),
+    );
+  }
+}
+
+// ======================================================
+// HOME PAGE
+// ======================================================
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+
+  final List<Map<String, String>> videos = [
+    {
+      'title': 'Learn Flutter From Scratch',
+      'channel': 'Flutter Academy',
+      'views': '1.2M views',
+      'image':
+      'https://images.unsplash.com/photo-1555066931-4365d14bab8c',
+    },
+    {
+      'title': 'Build Apps With Flutter',
+      'channel': 'Code With Me',
+      'views': '850K views',
+      'image':
+      'https://images.unsplash.com/photo-1516321318423-f06f85e504b3',
+    },
+    {
+      'title': 'Dart Programming Course',
+      'channel': 'Programming World',
+      'views': '2.4M views',
+      'image':
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: IndexedStack(
+        index: selectedIndex,
+        children: [
+          homeScreen(),
+          const ShortsPage(),
+          const Center(
+            child: Text(
+              'Subscriptions',
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+          const Center(
+            child: Text(
+              'You',
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+        ],
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: selectedIndex,
+        backgroundColor: Colors.black,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
+
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_library_outlined),
+            activeIcon: Icon(Icons.video_library),
+            label: 'Shorts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.subscriptions_outlined),
+            activeIcon: Icon(Icons.subscriptions),
+            label: 'Subscriptions',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            activeIcon: Icon(Icons.person),
+            label: 'You',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget homeScreen() {
+    return Scaffold(
+      backgroundColor: Colors.black,
+
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Row(
+          children: [
+            const Icon(
+              Icons.play_circle_fill,
+              color: Colors.red,
+              size: 32,
+            ),
+            const SizedBox(width: 8),
+            const Text(
+              'YouTube',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+          const Padding(
+            padding: EdgeInsets.only(right: 12),
+            child: CircleAvatar(
+              child: Text('A'),
+            ),
+          ),
+        ],
+      ),
+
+      body: ListView.builder(
+        itemCount: videos.length,
+        itemBuilder: (context, index) {
+          final video = videos[index];
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                video['image']!,
+                width: double.infinity,
+                height: 210,
+                fit: BoxFit.cover,
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            video['title']!,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 5),
+
+                          Text(
+                            '${video['channel']} • ${video['views']}',
+                            style: const TextStyle(
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const Icon(Icons.more_vert),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ======================================================
+// SHORTS PAGE
+// ======================================================
+
+class ShortsPage extends StatefulWidget {
+  const ShortsPage({super.key});
+
+  @override
+  State<ShortsPage> createState() => _ShortsPageState();
+}
+
+class _ShortsPageState extends State<ShortsPage> {
+  final PageController pageController = PageController();
+
+  final List<String> shortVideos = [
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+    'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+  ];
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+
+      body: PageView.builder(
+        controller: pageController,
+        scrollDirection: Axis.vertical,
+        itemCount: shortVideos.length,
+
+        itemBuilder: (context, index) {
+          return ShortVideo(
+            videoUrl: shortVideos[index],
+            index: index,
+          );
+        },
+      ),
+    );
+  }
+}
+
+// ======================================================
+// SHORT VIDEO
+// ======================================================
+
+class ShortVideo extends StatefulWidget {
+  final String videoUrl;
+  final int index;
+
+  const ShortVideo({
+    super.key,
+    required this.videoUrl,
+    required this.index,
+  });
+
+  @override
+  State<ShortVideo> createState() => _ShortVideoState();
+}
+
+class _ShortVideoState extends State<ShortVideo> {
+  late VideoPlayerController controller;
+
+  bool isLiked = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = VideoPlayerController.networkUrl(
+      Uri.parse(widget.videoUrl),
+    )
+      ..initialize().then((_) {
+        setState(() {});
+        controller.play();
+        controller.setLooping(true);
+      });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void toggleVideo() {
+    setState(() {
+      if (controller.value.isPlaying) {
+        controller.pause();
+      } else {
+        controller.play();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        // VIDEO
+        GestureDetector(
+          onTap: toggleVideo,
+
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+
+            child: controller.value.isInitialized
+                ? FittedBox(
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: controller.value.size.width,
+                height: controller.value.size.height,
+                child: VideoPlayer(controller),
+              ),
+            )
+                : const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ),
+
+        // YOUTUBE SHORTS TEXT
+        const Positioned(
+          top: 50,
+          left: 20,
+
+          child: Text(
+            'Shorts',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        // RIGHT SIDE BUTTONS
+        Positioned(
+          right: 15,
+          bottom: 100,
+
+          child: Column(
+            children: [
+              // LIKE
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+
+                icon: Icon(
+                  isLiked
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+
+                  color: isLiked
+                      ? Colors.red
+                      : Colors.white,
+
+                  size: 35,
+                ),
+              ),
+
+              const Text(
+                '12K',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // COMMENT
+              IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.black,
+                    builder: (context) {
+                      return const SizedBox(
+                        height: 300,
+                        child: Center(
+                          child: Text(
+                            'Comments',
+                            style: TextStyle(fontSize: 22),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+
+                icon: const Icon(
+                  Icons.comment,
+                  size: 32,
+                ),
+              ),
+
+              const Text('245'),
+
+              const SizedBox(height: 20),
+
+              // SHARE
+              IconButton(
+                onPressed: () {},
+
+                icon: const Icon(
+                  Icons.share,
+                  size: 32,
+                ),
+              ),
+
+              const Text('Share'),
+
+              const SizedBox(height: 20),
+
+              // MORE
+              IconButton(
+                onPressed: () {},
+
+                icon: const Icon(
+                  Icons.more_vert,
+                  size: 32,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // BOTTOM INFORMATION
+        Positioned(
+          left: 20,
+          right: 80,
+          bottom: 30,
+
+          child: Column(
+            crossAxisAlignment:
+            CrossAxisAlignment.start,
+
+            children: [
+              const Text(
+                '@FlutterAcademy',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              const Text(
+                'Learn Flutter and build amazing apps 🚀',
+                style: TextStyle(fontSize: 15),
+              ),
+
+              const SizedBox(height: 10),
+
+              Row(
+                children: const [
+                  Icon(
+                    Icons.music_note,
+                    size: 18,
+                  ),
+
+                  SizedBox(width: 5),
+
+                  Text(
+                    'Original sound',
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
 
